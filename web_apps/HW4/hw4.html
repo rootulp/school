@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>HW4</title>
+	<link rel="stylesheet" type="text/css" href="css/hw4.css" />
+	<script type="text/javascript" src="js/hw4.js"></script>
+</head>
+<body>
+	<h1> Calculate BMI </h1>
+	
+	<fieldset>
+    <legend>Enter your height and weight</legend>
+	<form name="bmicalc" onsubmit="return calculate();">
+			<img id="logo" src="img/bmi.gif" alt="BMI Image"/>
+			<label>Height (in Feet): </label>
+			<input id="feet"/>
+			<br>	<br>
+			<label>Height (in Inches): </label>
+			<input id="inches"/>
+			<br>	<br>
+			<label>Weight (in Pounds): </label>
+			<input id="pounds"/>
+			<br>	<br>
+			<input class="right" type="submit" value="Calculate BMI" />
+		</form>
+		</fieldset>
+	<fieldset>
+	<legend>The Result</legend>
+	<article id="result"></article>
+	</fieldset>
+
+</body>
+</html>

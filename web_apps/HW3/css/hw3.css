@@ -1,0 +1,44 @@
+@charset "UTF-8";
+body 
+	{ 
+		font-family: Georgia, sans-serif;
+		background-color: #008500;
+	}
+img 
+	{
+	float:right;
+	height:200px;
+	width:600px;
+	margin:5px;
+	}
+fieldset
+	{
+		border: 5px groove #FF0000;
+	}
+legend
+	{
+		background-color: #FF0000;
+	}
+label 
+	{
+		float: left;
+		height:20px;
+		margin:5px;
+		background-color: #00CC00;
+	}
+input 
+	{
+	    float:left;
+		height:20px;
+		margin:5px;
+		background-color: #00CC00;
+	}
+	
+select 
+	{
+		float: left;
+		height:20px;
+			margin:5px;
+
+		background-color: #00CC00;
+	}

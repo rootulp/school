@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>HW5</title>
+	<link rel="stylesheet" type="text/css" href="css/hw5.css" />
+	<script type="text/javascript" src="js/hw5.js"></script>
+</head>
+<body>
+	<h1> Mount Gox </h1>
+	<fieldset>
+    	<legend>Bank Interest Calculator</legend>
+    	<img id="logo" src="img/mtgox_logo.png" alt="Mt Gox Logo"/>
+		<label>Principle</label>
+		<input type="text" id="principle"/>
+		<br> <br>
+		<label>Number of Years:</label>
+		<select name="years" size="1" id="years">
+					<option value="2">1 year</option>
+					<option value="3">2 years</option>
+					<option value="4">3 years</option>
+					<option value="5">4 years</option>
+					<option value="6">5 years</option>
+					<option value="7">6 years</option>
+					<option value="8">7 years</option>
+					<option value="9">8 years</option>
+					<option value="10">9 years</option>
+					<option value="11">10 years</option>
+		</select>
+		<br> <br>
+		<label>Select the interest rate:</label>
+		<br> <br>
+		<label>Regular</label>
+		<input type="radio" name="interest" id="regular" value="regular" />
+		<br> <br>
+		<label>Premium</label>
+		<input type="radio" name="interest" id="premium" value="premium" />
+		<br> <br>
+		<input type="submit" id="submit" value="Create Interest Table" onclick="return createTable();"/>
+	</fieldset>
+	<fieldset>
+		<legend>The result</legend>
+		<article id="result"></article>
+	</fieldset>
+</body>
+</html>

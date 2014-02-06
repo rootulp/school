@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Weather Analyzer</title>
+	<link rel="stylesheet" type="text/css" href="css/hw6.css" />
+	<script type="text/javascript" src="js/hw6.js"></script>
+	
+</head>
+<body>
+<h1>Weather Analyzer</h1>
+<fieldset><legend>Analyzing Data</legend>
+<img src="img/weather.png" alt="Weather Image" style="float:right;"/>
+The Data: <input type="text" id="data" />
+<br>
+<br>
+<input type="radio" name="average" id="average" value="average" />
+Average
+<br>
+<input type="radio" name="sum" id="sum" value="sum" />
+Sum 
+<br>
+<input type="radio" name="sort" id="sort" value="sort" />
+Sort
+<br>
+<br>
+<input id="sort" type="submit" value="Analyze!" onclick="return doit();"/>
+</fieldset>
+<fieldset>
+<legend>The Result</legend>
+<article id="result"></article>
+</fieldset>	
+</body>
+</html>

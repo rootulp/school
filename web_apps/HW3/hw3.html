@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>HW3</title>
+	<link rel="stylesheet" type="text/css" href="css/hw3.css" />
+	<script type="text/javascript" src="js/hw3.js"></script>
+</head>
+<body>
+	<h1> Car Loan Payment Calculator </h1>
+	
+	<fieldset>
+    <legend>Car Loan Calculator</legend>
+	<form name="carcalc" onsubmit="return calculate();">
+			<img src="img/car.png" alt="Car Image"/>
+			<label>Enter the amount to borrow: $</label>
+			<input id="inputa"/>
+			<br>	<br>
+			<label>Select the number of years to pay back the loan:</label>
+			<select name="years" size="1" id="inputb">
+					<option value="1">1 year</option>
+					<option value="2">2 years</option>
+					<option value="3">3 years</option>
+					<option value="4">4 years</option>
+					<option value="5">5 years</option>
+					<option value="6">6 years</option>
+					<option value="7">7 years</option>
+					<option value="8">8 years</option>
+					<option value="9">9 years</option>
+					<option value="10">10 years</option>
+			</select>
+			<br>	<br>
+			<label>Select the interest rate:</label>
+			<select name="rate" size="1" id="inputc">
+					<option value="1">1%</option>
+					<option value="2">2%</option>
+					<option value="3">3%</option>
+					<option value="4">4%</option>
+					<option value="5">5%</option>
+					<option value="6">6%</option>
+					<option value="7">7%</option>
+					<option value="8">8%</option>
+					<option value="9">9%</option>
+					<option value="10">10%</option>
+			</select>
+			<br>	<br>
+			<input class="right" type="submit" value="Compute the payment" />
+		</form>
+		</fieldset>
+
+	<fieldset>
+	<legend>Your Payment</legend>
+	<article id="result"></article>
+	</fieldset>
+
+</body>
+</html>
