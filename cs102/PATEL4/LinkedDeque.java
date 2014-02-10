@@ -1,100 +1,121 @@
-// file: Deque.java
+// file: LinkedDeque.java
 // author: Rootul Patel
 // date: February 9, 2014
 //
-// LinkedDeque Implementation
+// Linked Deque Implementation
 // PS4
+
+import java.util.NoSuchElementException;
 
 public class LinkedDeque<T> implements Deque<T> {
     
     // Instance variables
-    //
-    private Node front;
-    private Node back;
     private int N;
-    
-    public LinkedDeque() {
-        this.front = null;
-        this.back = null;
-        this.N = 0;
-    }
-        
-    private class Node {
+    private Node<T> left;
+    private Node<T> right;
+    private class Node<T> {
         private T info;
         private Node next;
-        
-        private Node(T info) {
-            this.info = info;
-            this.next = null;
-        }
-        private T getInfo()    { return this.info; }
-        private Node getNext() { return this.next; }
+        private Node prev; 
     }
     
-    public void pushRight(T info) {
-        Node temp = new Node(info);
-        if(this.isEmpty())
-            this.front = temp;
-        else
-            this.back.next = temp;
-        this.back = temp;
-        this.N++;
+    // Constructor
+    public LinkedDeque() {
+        this.left = null;
+        this.right = null;
+        this.N = 0;
     }
+
+    // isEmpty function
+    public boolean isEmpty() { return this.N == 0; }  
     
-    public void pushLeft(T info) {
-        Node temp = new Node(info);
-        if(this.isEmpty())
-            this.back = temp;
-        else
-            this.front.next = temp;
-        this.front = temp;
-        this.N++;
-    }
+    // size function
+    public int size() { return N; }                   
     
-    public T popLeft() {
-        if (this.isEmpty())
-            throw new java.util.NoSuchElementException("Queue is empty.");
-        T frontValue = this.front.getInfo();
-        this.front = this.front.getNext();
-        this.N--;
-        if(this.isEmpty())
-            this.back = null;
-        return frontValue;
-    }
-    
-    public T popRight() {
-        if (this.isEmpty())
-            throw new java.util.NoSuchElementException("Queue is empty.");
-        T backValue = this.back.getInfo();
-        this.back = this.back.getNext();
-        this.N--;
-        if(this.isEmpty())
-            this.front = null;
-        return backValue;
-    }
-       
+    // toString function
     public String toString() {
-        StringBuilder sb = new StringBuilder("Deque = ");
-        Node temp = this.front;
+        StringBuilder sb = new StringBuilder("The Deque = ");
+        Node temp = this.left;
         while(temp != null) {
-            sb.append(temp.getInfo().toString() + " ");
-            temp = temp.getNext();
+            sb.append(temp.info.toString() + " ");
+            temp = temp.next;
         }
         return sb.toString();
     }
     
-    public boolean isEmpty() { return this.N == 0; }
-    public int size()        { return this.N; }
+    // pushLeft function
+    public void pushLeft(T info) {
+        Node<T> temp = left;
+        left = new Node<T>();
+        left.info = info;
+        if(temp != null) {
+            temp.prev = left;
+        }
+        if(isEmpty()) {
+            right = left;
+        }
+        else {
+            left.next = temp;
+        }
+        this.N++;
+    }
     
+    // pushRight function
+    public void pushRight(T info) {
+        Node<T> temp = right;
+        right = new Node<T>();
+        right.info = info;
+        if(temp != null) {
+            temp.next = right;
+        }
+        if(isEmpty()) {
+            left = right;
+        }
+        else {
+            right.prev = temp;
+        }
+        this.N++;
+    }
+    
+    // popLeft function
+    public T popLeft() {
+        if (isEmpty()) throw new NoSuchElementException("Deque Underflow");
+        T info = left.info;
+        left = left.next;
+        left.prev = null;
+        N--;
+        if(isEmpty()) {
+            right = null;
+        }
+        return info;
+    }
+    
+    // popRight function
+    public T popRight() {
+        if (isEmpty()) throw new NoSuchElementException("Deque Underflow");
+        T info = right.info;
+        right = right.prev;
+        right.next = null;
+        N--;
+        if(isEmpty()) {
+            left = null;
+        }
+        return info;
+    }
+    
+    // the MAIN!
     public static void main(String[] args) {
-     
-        Deque<String> qs = new LinkedDeque<String>();
-        qs.pushLeft("1");
-        qs.pushLeft("2");
-        qs.pushRight("3");
-        qs.pushRight("4");
-        System.out.println(qs.toString());
-        System.out.println(qs.size());
+        Deque<String> dq = new LinkedDeque<String>();
+        dq.pushLeft("1");
+        dq.pushLeft("2");
+        dq.pushRight("3");
+        dq.pushRight("4");
+        System.out.println(dq.toString());
+        StdOut.println("pop left " + dq.popLeft());
+        StdOut.println("pop right " + dq.popRight());
+        System.out.println(dq.toString());
+        System.out.println("deque size: " + dq.size());
+        System.out.println("is the deque empty? " + dq.isEmpty());
     }
 }
 

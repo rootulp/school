@@ -66,6 +66,7 @@ public class ResizingArrayDeque<T> implements Deque<T> {
             a[i-1]=a[i];      
         }
         N = N-1;                 //Decrement N
+        if (N > 0 && N == a.length/4) resize(a.length/2);
         a[N] = null;             //Set array value of N to null
         return temp;             
     }
@@ -83,14 +84,15 @@ public class ResizingArrayDeque<T> implements Deque<T> {
         dq.pushRight("4");
         dq.pushRight("5");
                                   //Print out original deque
-        StdOut.println(dq.toString());
+        StdOut.println("Original Deque " + dq.toString());
                                   //Fill up deque forcing a resize
         dq.pushRight("6");
                                   //Print out resized deque
-        StdOut.println(dq.toString());
+        StdOut.println("Resized Deque " + dq.toString());
                                   //Pop some values
-        dq.popLeft();
-        dq.popRight();
+        StdOut.println("pop left " + dq.popLeft());
+        StdOut.println("pop right " + dq.popRight());
+        StdOut.println("pop left " + dq.popLeft());
                                   //Print out new deque
         StdOut.println(dq.toString());
                                  //Print out size and is empty
