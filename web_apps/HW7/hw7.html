@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Weather Analyzer</title>
+	<link rel="stylesheet" type="text/css" href="css/hw7.css" />
+	<script type="text/javascript" src="js/hw7.js"></script>
+	
+	</head>
+	<body id="body">
+		<h1>The iPhone Case Store</h1>
+		<!-- Source : http://core0.staticworld.net/images/article/2013/09/iphone-5s-case-full-100055210-orig.png -->
+		<section>
+			<fieldset>
+				<legend id="purchase">Purchase Form</legend>
+				<!-- <form method="post" action="http://www.bc.edu/tools/formmail.cgi"> -->
+						<img src="img/iphone case.png" alt="iphone Case Image"/>
+						<fieldset>
+						<legend>Name</legend>
+						<section id="nameerror"></section>
+						Your Name: <input type="text" id="name" />
+						</fieldset>
+						
+						<fieldset>
+						<section id="phoneerror"></section>
+						<legend>Phone</legend>
+						Phone Number: <input type="text" id="phone" />
+						</fieldset>
+
+						<fieldset>
+						<section id="emailerror"></section>
+						<legend>Email</legend>
+						Email Address: <input type="text" id="email" />
+						</fieldset>
+						
+						<fieldset>
+						<section id="addresserror"></section>
+						<legend>Address</legend>
+						Street <input type="text" id="street" />
+						City <input type="text" id="city" />
+						State <input type="text" id="state" />
+						Zip <input type="text" id="zip" />
+						</fieldset>
+
+						<fieldset>
+						<section id="paymenterror"></section>
+						<legend>Payment</legend>
+						<label>Payment Method:</label>
+						<br>
+						<br>
+						<input type="radio" name="payment" id="check" value="Check" />
+						Check
+						<br>
+						<br>
+						<input type="radio" name="payment" id="cash" value="Cash" />
+						Cash
+						<br>
+						<br>
+						<input type="radio" name="payment" id="credit" value="Credit Card" />
+						Credit Card
+						<br>
+						<br>
+						</fieldset>
+						
+						<input id="sort" type="submit" value="Submit" onclick="return simplevalidate();"/>
+		</fieldset>
+	</body>
+</html>
