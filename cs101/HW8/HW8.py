@@ -4,22 +4,22 @@
 from Tkinter import *
 import BCImage
 
-def read():
+def read():                                                 #Reads in an image file and displays it
     global photo
     photo = PhotoImage(file=photoEntry.get())
     canvas = Canvas(window,width = photo.width(), height = photo.height())
     canvas.grid(row = 0, column = 0, columnspan = 5)
     canvas.create_image(0,0,image = photo, anchor = NW)
     
-def gray(): 
+def gray():                                                  #Make image gray
     global photo
     pixels = BCImage.getPixels(photo)
     for row in range(photo.height()):
-        for col in range(photo.width()):
-            r = pixels[row][col][0]
+        for col in range(photo.width()): 
+            r = pixels[row][col][0]                   #Grab pixels
             g = pixels[row][col][1]
             b = pixels[row][col][2]
-            gray = r*.3 + g*.59 + b*.11
+            gray = r*.3 + g*.59 + b*.11         #Formula to gray pixels
             pixels[row][col]=[gray,gray,gray]
     BCImage.setPixels(photo,pixels)
 
