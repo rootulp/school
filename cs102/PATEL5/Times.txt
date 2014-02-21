@@ -1,0 +1,9 @@
+// Author: Rootul Patel
+// Date: 2/21/14
+// Text File for various merge algorithims with largeW.txt
+// Three trials for each
+// Time recorded in seconds
+
+Merge.java = 1.992, 1.752, 1.735
+MergeBU.java = 1.013, .957, .959
+MergeTDNonrecursive =   3.316, 3.19, 3.107
