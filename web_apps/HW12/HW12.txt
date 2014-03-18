@@ -1,0 +1,32 @@
+Part 1:
+SELECT FirstName, Birthday FROM mylist ORDER BY FirstName
+
+Part 2:
+1. SELECT * FROM countries WHERE CountryName="Monaco";
+2. SELECT * FROM countries WHERE Languages LIKE "%Arabic%"
+	30 Countries speak Arabic
+3. SELECT `Continent`, `Airports` FROM `countries` GROUP BY `Continent`
+4. SELECT sum(`ElectricityProductionKWh`) - sum(`ElectricityConsumptionKWh`) FROM `countries`
+	970694360000 KWh
+5. SELECT `CountryName`,SUM(  `Imports` ) - SUM(  `Exports` ) FROM  `countries` GROUP BY  `CountryName` ORDER BY 2 desc limit 5;
+	CountryName	SUM( `Imports` ) - SUM( `Exports` )
+	United States	845000000000
+	United Kingdom	134200000000
+	Spain	102300000000
+	India	75900000000
+	France	39100000000
+6. SELECT `CountryName`,SUM(  `Imports` ) - SUM(  `Exports` )  FROM  `countries` GROUP BY  `CountryName` ORDER BY 2 desc limit 5,3;
+	CountryName	SUM( `Imports` ) - SUM( `Exports` )
+	Turkey	35690000000
+	Greece	34700000000
+	Portugal	20970000000
+7. SELECT `CountryName`, `MedianAge` FROM `countries` ORDER BY `MedianAge` DESC LIMIT 1
+	CountryName	MedianAge
+	Monaco	45.4
+8. SELECT  `CountryName` ,  `Population` * POW( 1 + (  `PopulationGrowthRate` /100 ) , 25 ) FROM  `countries` WHERE 1 ORDER BY  `Population` * POW( 1 + (  `PopulationGrowthRate` /100 ) , 25 ) DESC LIMIT 1
+	CountryName	`Population` * POW( 1 + ( `PopulationGrowthRate` /100 ) , 25 )
+	India	1542982056.951
+9. SELECT sum(`OilProvedReservesBbl`) FROM `countries` WHERE 1
+	1328374753000
+10. SELECT ((sum(`OilProvedReservesBbl`) / sum(`OilConsumptionBblPerDay`))/365)-7 FROM `countries` WHERE 1
+	37.2923465976457 years
