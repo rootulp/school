@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+        body{	font-family: Verdana, sans-serif;
+        		 }
+        fieldset {  
+        		
+                color: maroon;
+                font-family: Garamond;
+                font-size: 20px;
+                background-color: gold;
+                width:140px;
+        }
+        legend {
+                background-color: maroon; 
+                width: 300px;
+                font-size: 18px;
+                color: black;
+                font-family: Verdana;
+                border: 3px groove yellow;
+                border-color:gold;
+        }
+        input{
+                background-color:weight;
+                font-weight:bold;
+                font-family:Garamond;
+          }
+		img{
+		width: 400px;
+		height: 150px;
+		}
+		textarea {
+    width: 200px;
+}
