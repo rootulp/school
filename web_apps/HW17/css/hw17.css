@@ -1,0 +1,67 @@
+@charset "UTF-8";
+body {	
+    font-family: Verdana, sans-serif;
+}
+fieldset {  
+    font-size: 20px;
+    width:350px;
+    font-family: verdana,arial,sans-serif;
+    color:#333333;
+    border-width: 1px;
+    border-color: #666666;
+    border-collapse: collapse;
+}
+legend {
+    font-family: verdana,arial,sans-serif;
+    font-size: 18px;
+    color: black;
+    background-color: #dedede;
+    padding: 8px;
+    width: 300px;
+    border: 3px groove grey;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #666666;
+}
+input {
+    background-color:weight;
+    font-weight:bold;
+    font-family:Garamond;
+}
+img {
+    width: 400px;
+    height: 150px;
+}
+table.gridtable {
+    font-family: verdana,arial,sans-serif;
+    font-size:11px;
+    color:#333333;
+    border-width: 1px;
+    border-color: #666666;
+    border-collapse: collapse;
+}
+table.gridtable th {
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #dedede;
+}
+table.gridtable td {
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #ffffff;
+}
+
+/*textarea {
+    width: 200px;
+}*/
+/*tr.alt1{
+    background-color:yellow;
+}
+tr.alt2{
+    background-color:pink;
+}*/
+
