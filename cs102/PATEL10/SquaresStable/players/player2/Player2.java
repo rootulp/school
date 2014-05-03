@@ -1,34 +1,111 @@
+// author: Rootul Patel & Nelson Demoraes
+// file: Player2.java
+// date: 5/2/14
+// ps10
+// Squares Player2
 package players.player2;
-
 import players.*;
 import board.*;
 import util.*;
 import java.util.*;
 import java.awt.Color;
-
 public class Player2 implements Player {
- 
     private DBG dbg;
-
     public Player2() {
-        dbg = new DBG(DBG.PLAYERS,"Player2");
+        dbg = new DBG(DBG.PLAYERS, "Player1");
     }
-    
     public Line makePlay(Board board, Player opponent, Line oppPlay, Clock clock) {
-        Set<Line> lines = board.openLines();
-        if(dbg.debug)
-            dbg.println("makePlay: player2 thinks there are " + lines.size() + " open lines");
         
-        int pick = (int) (Math.random() * lines.size()),
-            i = 0;
-        for(Line line : lines) {
-            if(i == pick) return line;
-            i = i + 1;
+        //This is our simple greedy player. We spent a lot of time working on a minimax 
+        //algorithm but couldn't get it to work in time. We decided to submit a functioning
+        //player to work in the tournament along with the minimax attempt in comments
+
+        //==================== MINIMAX Attempt======================
+        //        ScoreAndLine result = this.minMax(board, 0, 2, opponent);
+        //        Line resultLine = result.getLine();
+        //        System.out.println("About to return line:" + resultLine);
+        //        return resultLine;
+        
+        Set<Line> lines = board.openLines();
+        if (lines.size() == 1) {
+            return lines.iterator().next();
         }
-        return new LineC(0, 0, Side.NORTH);
+
+        int bestValue = -1;
+        Line lbest = null;
+        for (Line line : lines) {
+            board.markLine(this, line);
+            Score s = board.getScore();
+            if (s.getPlayer1() > bestValue) {
+                bestValue = s.getPlayer1();
+                lbest = line;
+            }
+            board.removeLine(line);
+        }
+        return lbest;
+        
     }
-    public String teamName() { return "Terriers"; }
-    public Color getColor()  { return Util.PLAYER2_COLOR; }    
-    public int getId()       { return 2; }
-    public String toString() { return teamName(); }
+    public String teamName() {
+        return "Tummy";
+    }
+    public Color getColor() {
+        return Util.PLAYER1_COLOR;
+    }
+    public int getId() {
+        return 2;
+    }
+    public String toString() {
+        return teamName();
+    }   
+
+//=================== REST OF MINIMAX ATTEMPT ===========================
+//    private ScoreAndLine minMax(Board board, int seed, int depth, Player opponent) {
+//        Score bestScore = null;
+//        Line lbest = null;
+//        int val1 = -1;
+//        int val2 = 100;
+//        if (depth == 0 || board.gameOver()) { //if depth ==0  
+//            System.out.println("Reached bottom");
+//            Score s = board.getScore();
+//            Line l = null;
+//            return new ScoreAndLine (s, l);
+//        } else {
+//            Set<Line> lines = board.openLines();
+//            for (Line line : lines) {
+//                if (seed == 0 ) {
+//                    board.markLine(this, line);
+//                    System.out.println("Marked " + line + "for: " + this);
+//                    ScoreAndLine sl = minMax(board, 1, depth-1, opponent);
+//                    Score s = sl.getScore();
+//                    Line l = sl.getLine();
+//                    System.out.println("s1" + s.getPlayer1() + "s2" + s.getPlayer2());
+//                    if ((s.getPlayer1() - s.getPlayer2()) > val1) {
+//                        val1 = s.getPlayer1() - s.getPlayer2();
+//                        bestScore = s;
+//                        lbest = l;    
+//                        System.out.println("Best Score: " + bestScore + " Line: " + lbest);
+//                    }
+//                    board.removeLine(line);
+//                    System.out.println("Removed " + line);
+//                } else {
+//                    board.markLine(opponent, line);
+//                    System.out.println("Marked " + line + "for: " + opponent);
+//                    ScoreAndLine sl = minMax(board, 0, depth-1, opponent);
+//                    Score s = sl.getScore();
+//                    Line l = sl.getLine();
+//                    System.out.println("s1" + s.getPlayer1() + "s2" + s.getPlayer2());
+//                    if ((s.getPlayer1() - s.getPlayer2()) < val2) {
+//                        val2 = s.getPlayer1() - s.getPlayer2();
+//                        bestScore = s;
+//                        lbest = l;
+//                        System.out.println("Best Score: " + bestScore + " Line: " + lbest);
+//                    }
+//                    board.removeLine(line);
+//                    System.out.println("Removed" + line);
+//                }
+//            }
+//            return new ScoreAndLine (bestScore, lbest); //lbest is always null?!
+//        }
+//    }
+       
 }

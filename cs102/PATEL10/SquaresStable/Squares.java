@@ -45,7 +45,6 @@ public class Squares {
     }
 
     public static void main(String[] args) {
-        
         // As of now, one optional command line argument: an integer N
         // specifying the board dimensions. The default is 4.
         //
