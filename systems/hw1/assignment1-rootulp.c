@@ -64,7 +64,8 @@ void printLine(char *line, int size){
 int parse(char *input, int inputSize, char *output){
   
   enum Statetype state = START; // start state
-  enum Boolean error = false; // error flag
+  enum Boolean commentError = false; // comment error flag
+  enum Boolean quoteError = false; // quote error flag
   int inputIndex = 0; // used to index through input array
   int outputIndex = 0; // used to index through output array
 
@@ -77,7 +78,8 @@ int parse(char *input, int inputSize, char *output){
         outputIndex++; // increment output index
 
         if (*(input + inputIndex) == '"'){
-          state = QUOTE;
+          quoteError = true; // set quote error flag to true because we are midquote
+    state = QUOTE;
         } else if (*(input + inputIndex) == '/'){
           state = SLASH;
         } else {
@@ -88,7 +90,7 @@ int parse(char *input, int inputSize, char *output){
       case SLASH:
         
         if (*(input + inputIndex) == '*'){
-          error = true; // set error flag to true because we are about to be midcomment
+          commentError = true; // set comment error flag to true because we are about to be midcomment
           *(output + outputIndex -1) = ' '; // set previous char(/) to empty space
           state = MIDCOMMENT;
         } else if (*(input + inputIndex) == '/'){
@@ -112,7 +114,7 @@ int parse(char *input, int inputSize, char *output){
 
       case STAR:
         if (*(input + inputIndex) == '/'){
-          error = false; // reset error flag to false
+          commentError = false; // reset comment error flag to false
           state = START;
         } else if (*(input + inputIndex) == '*') {
           state = STAR;
@@ -126,6 +128,7 @@ int parse(char *input, int inputSize, char *output){
         outputIndex++;
 
         if (*(input + inputIndex) == '"'){
+    quoteError = false; // reset quote error flag to false
           state = START;
         } else {
           state = QUOTE;
@@ -138,8 +141,12 @@ int parse(char *input, int inputSize, char *output){
 
   }
 
-  if (error == true) // check error flag
+  // check error flags
+  if (commentError == true){ 
    printf("Error: unterminated comment\n");
+  } else if (quoteError == true){
+   printf("Error: unterminated string constant\n");
+  }
 
   return outputIndex; // return size of output array
 }
