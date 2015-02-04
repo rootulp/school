@@ -1,0 +1,31 @@
+Rootul Patel
+Mobile Apps
+Assignment 1 Write Up
+
+Design:
+The design for my calculator came from the calculator preinstalled on most Mac
+computers. The layout resembles a grid or table with the 0 number taking up two
+columns. The output sits at the top of the screen and spans the width of the
+calculator. After deciding on this layout, I tried to implement it in Android
+Studio. I quickly realized that the relative layout was far too tedious and when
+adding several buttons to my Application, some buttons became relative to each
+other and the whole app came out looking like a mess. I did some research online
+and found the table layout which lets you structure your application in rows and
+columns (essentially an html table). I added all the digits and operations to
+the table and the app came out looking pretty good. I'm unsure as to how the app
+would display on different screen sizes like tablets but it looks decent on
+phones. Also after I drew the initial sketch, I realized that the percent sign
+wasn't necessary so I doubled the width of the equals sign to fill the empty
+cell in the table.
+
+Implementation:
+To implement my calculator, I copied over a decent amount of code from the
+simple calculator demo. I realized we would need to be able to manipulate
+decimal values so I switched the ints to floats and made the decimal point
+insert a string decimal point. Every time I needed to manipulate the
+number, I would read the string from output and convert it to a float.
+Some other changes/additions include:
+- Errors if output is infinity or not a number
+- Sign button that multiplys current number by negative 1
+- Implement a decimal flag to stop app crashing when trying to insert 2 decimal
+  points in same number
