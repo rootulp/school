@@ -1,0 +1,8 @@
+Rootul Patel
+
+This assignment took me a while to complete. I found some code online to help with the doubly linked list implementation. Then it was a little tricky to read in lines for the stocks file but it got really difficult when I needed to push nodes into the Linked List with stock structs as the value. It also took a while to come to the conclussion of passing in a pointer to a comparator function in my iterator function so that I could evaluate what I needed (either percent change or closing share price) on each node (stock) in the linked list.
+
+To Run:
+
+gcc-o main LinkedListTest.c LinkedList.c
+gcc-o main StocksTest.c Stocks.c LinkedList.c
