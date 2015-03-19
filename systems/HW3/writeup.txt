@@ -1,0 +1,4 @@
+Assignment three went well. I liked part A a lot more than part B. Constructing an FSM to recognize an unknown pattern was a lot easier because of the past two assignments. On the other hand part B took a while to comprehend and implement.
+
+Part A: gcc -o main.exe main.c string.c
+Part B: gcc -o main.exe main.c definitions.c
