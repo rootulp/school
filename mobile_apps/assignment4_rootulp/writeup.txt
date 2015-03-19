@@ -1,0 +1,12 @@
+Rootul Patel
+Mobile Apps HW4
+
+I never finished part A. I'll probably work on it more tomorrow but I can't get
+it finished before the deadline. I was having a lot of trouble creating multiple
+databases for the lists.
+
+On the other hand, part B was pretty fun. I didn't like hardcoding possible
+solutions because it seems like there has to be a better way to check for
+winners but this is all I could think of. Also I didn't pay particularly close
+attention to the design / asthetic of the app but I did mess around a little
+with the colors.
