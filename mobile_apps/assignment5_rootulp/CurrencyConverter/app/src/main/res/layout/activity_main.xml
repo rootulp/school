@@ -1,0 +1,71 @@
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".PatternMatchActivity"
+    android:weightSum="1"
+    android:background="#ffc0ffdf"
+    android:dividerPadding="10dp"
+    android:padding="10dp"
+    android:paddingEnd="10dp"
+    android:paddingStart="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Pick Your Currencies From The Menus Below!!!!                                Pick Either the Euro or US Dollar From Below to Find Out the Exchange Rate"
+        android:background="#ffffad3c"
+        android:paddingTop="10dp"
+        android:gravity="center"
+        android:layout_weight="0.21" />
+
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerto"
+        android:spinnerMode="dropdown"
+        android:layout_weight="0.13"
+        android:background="#fff9ffff" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerfrom"
+        android:layout_weight="0.11"
+        android:spinnerMode="dropdown"
+        android:background="#ffacaaff" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show Rate"
+        android:id="@+id/button"
+        android:background="#ff397aff"
+        android:onClick="onButtonClick"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Results Shown Here!"
+        android:id="@+id/result"
+        android:layout_weight="0.42"
+        android:paddingTop="10dp"
+        android:gravity="center"
+
+        />
+
+</LinearLayout>
+
+

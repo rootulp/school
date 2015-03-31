@@ -1,0 +1,4 @@
+I liked this assignment significantly more than the previous few. Currency
+converting was relatable and interesting. Also playing around with regex was
+fun. Lastly got this assignment done in time to style it up a little. Was going
+to add a few other currencies but got kind of lazy.
