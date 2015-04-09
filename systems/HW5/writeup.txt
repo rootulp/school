@@ -1,0 +1,8 @@
+I liked playing with threads in C but I ran into a couple of weird issues that needed several janky solutions.
+
+1. I'm printing ints instead of floats because I ran into weird Floating point exceptions. I realize decimal precision was probably expected but I wanted it to work all the time so I'm only printing / calculating int averages.
+
+2. The first cycle usually repeats the same pseudo-random int (presumably because the time function is called twice during the same time)
+
+Compile with:  gcc -pthread -o main.exe Thread.c LinkedList.c
+To run with 3 sensors: ./main.exe 3
