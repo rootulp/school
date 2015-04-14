@@ -71,15 +71,15 @@ int main(int argc, char* argv[]) {
     exit(1);
   }
 
-  fp = fopen("input.txt", "r");
+  fp = fopen("mobydick.txt", "r");
   if (fp == NULL) {
-    perror("Error: input.txt");
+    perror("Error: mobydick.txt");
     return(-1);
   }
 
-  fpout = fopen("output.txt", "wb");
+  fpout = fopen("mobydicknew.txt", "wb");
   if (fpout == NULL) {
-    perror("Error: output.txt");
+    perror("Error: mobydicknew.txt");
     return(-1);
   }
 
@@ -88,9 +88,9 @@ int main(int argc, char* argv[]) {
   while(line != NULL) {
     pid = fork();
     if (pid != 0) {
-      printf("Process 1\n");
-      printf("Reading from input file: '%s'\n", line);
-      printf("Writing to pipe 1: '%s'\n", line);
+      /* printf("Process 1\n"); */
+      /* printf("Reading from input file: '%s'\n", line); */
+      /* printf("Writing to pipe 1: '%s'\n", line); */
       rc1 = write(pipe_1[1], line, strlen(line) + 1);
       if (rc1 == -1) {
         perror("Error: writing to pipe 1");
@@ -100,9 +100,9 @@ int main(int argc, char* argv[]) {
       waitpid(pid, &status, 0);
       exit(1);
     } else {
-      printf("Process 2\n");
+      /* printf("Process 2\n"); */
       rc1 = read(pipe_1[0], read_buffer_1, sizeof(read_buffer_1));
-      printf("Reading from pipe 1: '%s'\n", read_buffer_1);
+      /* printf("Reading from pipe 1: '%s'\n", read_buffer_1); */
 
       for (int i = 0; i < strlen(read_buffer_1); i++) {
         int test1 = islower(read_buffer_1[i]);
@@ -117,16 +117,16 @@ int main(int argc, char* argv[]) {
       }
 
       rc2 = write(pipe_2[1], read_buffer_1, sizeof(read_buffer_1));
-      printf("Writing to pipe 2: '%s'\n", read_buffer_1);
+      /* printf("Writing to pipe 2: '%s'\n", read_buffer_1); */
 
       pid2 = fork();
       if (pid2 != 0) {
         waitpid(pid2, &status, 0);
       } else {
-        printf("Process 3\n");
+        /* printf("Process 3\n"); */
         rc2 = read(pipe_2[0], read_buffer_2, sizeof(read_buffer_2));
-        printf("Reading from pipe 2: '%s'\n", read_buffer_2);
-        printf("Writing to output file: '%s'\n\n", read_buffer_2);
+        /* printf("Reading from pipe 2: '%s'\n", read_buffer_2); */
+        /* printf("Writing to output file: '%s'\n\n", read_buffer_2); */
 
         strcat(read_buffer_2, "\n");
         fputs(read_buffer_2, fpout);
