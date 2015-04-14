@@ -1,0 +1,8 @@
+I enjoyed working with pipes on this homework assignment. I couldn't find the
+Moby Dick txt file on canvas so I tossed in the first paragraph of the
+SparkNotes summary into input.txt. I also added a couple lines of 'foo bar baz'
+in various capitalization arrangmenets for testing purposes.
+
+Compile with gcc -o main.exe main.c
+Run with ./main
+Compare txt files with cat input.txt and cat output.txt
