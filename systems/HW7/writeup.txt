@@ -1,0 +1,6 @@
+HW7 was easily the longest but most interesting problem set we've done this semester. I really like how we were given a skeleton for the problem as well as a number of tests to pass. I like test driven development because it encourages you to solve the problem set incrementally. This PSet would've been much more difficult if I tried implementing the garbage collection before ensuring that myalloc was working correctly.
+
+All tests seem to pass.
+
+Thanks for a great semester Prof. Signorile!
+Rootul
