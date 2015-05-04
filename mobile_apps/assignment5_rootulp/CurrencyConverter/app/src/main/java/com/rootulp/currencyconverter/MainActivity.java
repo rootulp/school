@@ -40,10 +40,10 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.SpinnerTo = new String[] {
-                "EUR", "USD"};
+                "EUR", "USD", "JPY", "GBP", "CAD", "AUD"};
         
         this.SpinnerFrom = new String[] {
-                "USD", "EUR" };
+                "USD", "EUR", "JPY", "GBP", "CAD", "AUD"};
 
         Spinner s = (Spinner) findViewById(R.id.spinnerto);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, SpinnerTo);
@@ -108,7 +108,7 @@ public class MainActivity extends ActionBarActivity {
                                 url.openStream()));
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
-                    if (inputLine.contains("results") ) {//find city
+                    if (inputLine.contains( CurrencyFrom + " to " + CurrencyTo + " Exchange Rate") ) {//find city
 //                        inputLine = in.readLine(); //originally had this but
 //                                                      realized it actually skipped a line in the debugger
                         Matcher m = tPattern.matcher(inputLine);
