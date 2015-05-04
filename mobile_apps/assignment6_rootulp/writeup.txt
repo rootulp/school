@@ -1,0 +1,8 @@
+//Rootul Patel
+
+I enjoyed the first part of this assignment but the second part took a very long to even get set up because of the google maps api. It also took me a while to realize how to serialize the artist object. I really enjoyed the caricature images though!
+
+Sometimes the locations don't get accuratley painted on the map and instead a marker gets dropped at the equator. Weird bug but I'm not sure what's causing it.
+
+RootulJsonA is the first part.
+RootulpJsonA is the second part.
