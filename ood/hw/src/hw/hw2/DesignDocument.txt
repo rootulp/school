@@ -1,0 +1,22 @@
+Rootul Patel
+OOD HW2
+Design Document
+
+For this assignment I tried to design my classes before getting into
+implementation but I ended up building out classes that didn't get used (as in
+ComputerPlayer). My reasoning behind this abstract class was to toss common
+computer logic into this class but I ended up making fairly specific makeMove
+methods for each Player and therefore couldn't abstract any logic to a higher
+class. Given more time and more iterations, I would ideally like to remove some
+of this specific logic from makeMove into a higher level abstract class.
+
+To use this assignment, you must define the types of Players to use in the
+simulation in playerTypes of HW2DiceGame.java
+
+The three valid types of players are:
+- "HumanPlayer"
+- "ConservativeComputerPlayer"
+- "AggressiveComputerPlayer"
+
+As the HumanPlayer you must enter 1 or 2 depending on whether you want to take
+the pot or reroll
