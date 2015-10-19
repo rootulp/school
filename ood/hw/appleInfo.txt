@@ -1,0 +1,6 @@
+name apple
+hq california
+earnings 8.5
+marketsegment technology
+shareprice 110
+products iphone macbook macOS ipad
