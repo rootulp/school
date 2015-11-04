@@ -1,3 +1,4 @@
+/*
 package hw.hw5;
 
 import javax.swing.*;
@@ -42,3 +43,4 @@ class GUIPanel2 extends JPanel {
     }
 
 }
+*/
