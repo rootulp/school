@@ -1,0 +1,18 @@
+Part ii
+       user     system      total        real
+N: 10  0.000000   0.000000   0.000000 (  0.000186)
+N: 10  0.000000   0.000000   0.000000 (  0.000115)
+N: 10  0.000000   0.000000   0.000000 (  0.000120)
+N: 10 Averaged three times / N^2:
+  0.000000   0.000000   0.000000 (  0.000003)
+N: 100  0.000000   0.000000   0.000000 (  0.000179)
+N: 100  0.000000   0.000000   0.000000 (  0.000101)
+N: 100  0.000000   0.000000   0.000000 (  0.000112)
+N: 100 Averaged three times / N^2:
+  0.000000   0.000000   0.000000 (  0.000000)
+
+# Possible explanation for why times are lower on N = 100... since probability
+to delete an edge becomes 19/20 rather than 1/2... most edges get deleted. My
+algo terminates early if there isn't a valid path from start to end... Since
+N=10 is more likely of having more edges and therefore a legitamate path from
+start to end, it takes longer to find said path.
