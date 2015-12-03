@@ -6,7 +6,7 @@ public class Variable extends ArithmeticExpression {
 
     private String var;
 
-    public Variable (String var) {
+    public Variable(String var) {
         this.var = var;
     }
 

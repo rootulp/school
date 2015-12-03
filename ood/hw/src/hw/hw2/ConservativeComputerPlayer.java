@@ -15,7 +15,7 @@ public class ConservativeComputerPlayer extends ComputerPlayer {
         if (diceRoll == 1) {
             System.out.println(getName() + " aced out after 1 rolls");
             return potSize;
-        }  else {
+        } else {
             System.out.println(getName() + " stopped after 1 rolls and won " + potSize + " chips");
             addChips(potSize);
             return 0;

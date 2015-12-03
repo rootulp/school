@@ -14,7 +14,7 @@ public class DiceGame {
     public void start() {
         int currPlayerIndex = 0;
 
-        while (true){
+        while (true) {
             Player currPlayer = Players.get(currPlayerIndex);
             incrementPot();
             potSize = currPlayer.makeMove(potSize);
@@ -36,7 +36,7 @@ public class DiceGame {
 
     private void printChipCounts() {
         System.out.print("Chip count: ");
-        for (Player player: Players) {
+        for (Player player : Players) {
             System.out.print(player.getName() + ":" + player.getChipCount() + " ");
         }
         System.out.println();

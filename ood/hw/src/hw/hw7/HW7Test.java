@@ -12,7 +12,7 @@ public class HW7Test {
         Product mult1 = new Product();
         Add add2 = new Add();
 
-        Map<String,Integer> vars1 = new HashMap<>();
+        Map<String, Integer> vars1 = new HashMap<>();
         vars1.put("x", 6);
         vars1.put("y", 4);
 
@@ -40,14 +40,14 @@ public class HW7Test {
         System.out.println();
 
         Add add3 = new Add();
-        Map<String,Integer> vars2 = new HashMap<>();
+        Map<String, Integer> vars2 = new HashMap<>();
         System.out.println("Test Case 2: Add with no children");
         System.out.println(add3.toString(vars2));
         System.out.println(add3.evaluate(vars2));
         System.out.println();
 
         Product mult2 = new Product();
-        Map<String,Integer> vars3 = new HashMap<>();
+        Map<String, Integer> vars3 = new HashMap<>();
         System.out.println("Test Case 3: Multiply with no children");
         System.out.println(mult2.toString(vars3));
         System.out.println(mult2.evaluate(vars3));

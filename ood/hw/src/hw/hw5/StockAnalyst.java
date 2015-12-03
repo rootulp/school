@@ -13,6 +13,7 @@ public abstract class StockAnalyst {
     }
 
     public abstract double confidenceLevel();
+
     public abstract String reasons();
 
 }

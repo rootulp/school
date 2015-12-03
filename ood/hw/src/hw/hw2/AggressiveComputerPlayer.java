@@ -19,7 +19,7 @@ public class AggressiveComputerPlayer extends ComputerPlayer {
             if (diceRoll == 1) {
                 System.out.println(getName() + " aced out after " + numRolls + " rolls");
                 break;
-            }  else  {
+            } else {
                 System.out.println(getName() + ": rolled a " + diceRoll + ". Pot size: " + potSize);
 
                 if (potSize >= 5) {

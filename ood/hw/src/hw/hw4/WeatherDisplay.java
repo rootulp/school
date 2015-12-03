@@ -15,6 +15,7 @@ public abstract class WeatherDisplay {
     }
 
     abstract void update(WeatherData wd);
+
     abstract String displayString();
 }
 
@@ -66,7 +67,7 @@ class ForecastDisplay extends WeatherDisplay {
 class StatisticsDisplay extends WeatherDisplay {
     private float maxTemp = 0.0f;
     private float minTemp = 200;
-    private float tempSum= 0.0f;
+    private float tempSum = 0.0f;
     private int numReadings;
 
     public StatisticsDisplay(WeatherData wd) {

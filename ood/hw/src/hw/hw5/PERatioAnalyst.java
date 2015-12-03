@@ -17,8 +17,12 @@ public class PERatioAnalyst extends AnalystDecorator {
     private double priceEarningsConfidenceLevel() {
         double cl = priceEarningsRatio() / 24;
 
-        if (cl < .25) { cl = .25; } // If confidence level is below 25%, set it to 25%
-        if (cl > .75) { cl = .75; } // If confidence level is above 75%, set it to 75%
+        if (cl < .25) {
+            cl = .25;
+        } // If confidence level is below 25%, set it to 25%
+        if (cl > .75) {
+            cl = .75;
+        } // If confidence level is above 75%, set it to 75%
 
         return cl;
     }

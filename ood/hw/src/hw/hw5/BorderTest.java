@@ -22,7 +22,7 @@ class GUIFrame1 extends JFrame {
     public GUIFrame1() {
         setTitle("GUI1 Demo");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocation(200,200);
+        setLocation(200, 200);
         panel = new GUIPanel1();
         setContentPane(panel);
         setVisible(true);

@@ -10,13 +10,13 @@ public class HW2DiceGame {
     public static void main(String[] args) {
         List<Player> Players = new ArrayList<Player>();
 
-        for (String player: playerTypes) {
+        for (String player : playerTypes) {
             if (player == "HumanPlayer") {
-                Players.add (new HumanPlayer());
+                Players.add(new HumanPlayer());
             } else if (player == "ConservativeComputerPlayer") {
-                Players.add (new ConservativeComputerPlayer());
+                Players.add(new ConservativeComputerPlayer());
             } else if (player == "AggressiveComputerPlayer") {
-                Players.add (new AggressiveComputerPlayer());
+                Players.add(new AggressiveComputerPlayer());
             } else {
                 System.out.println("Invalid Player!");
             }

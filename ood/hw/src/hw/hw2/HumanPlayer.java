@@ -22,7 +22,7 @@ public class HumanPlayer extends Player {
             if (diceRoll == 1) {
                 System.out.println(getName() + " aced out after " + numRolls + " rolls");
                 break;
-            }  else  {
+            } else {
                 System.out.println(getName() + ": rolled a " + diceRoll + ". Pot size: " + potSize);
                 System.out.println(getName() + ": Press 1 to take pot, 2 to reroll");
 

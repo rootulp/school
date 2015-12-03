@@ -14,6 +14,7 @@ public abstract class ArithmeticExpression {
     }
 
     public abstract int evaluate(Map<String, Integer> vars);
+
     public abstract String toString(Map<String, Integer> vars);
 
     public static void traverse(ArithmeticExpression root) {

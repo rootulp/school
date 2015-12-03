@@ -12,7 +12,7 @@ public class CashRegister {
 
     public CashRegister() {
         this.arrivalTimes = new LinkedList<Integer>();
-        this.serviceTimes =  new LinkedList<Integer>();
+        this.serviceTimes = new LinkedList<Integer>();
         this.customersServed = 0;
         this.totalWaitTimes = 0;
     }

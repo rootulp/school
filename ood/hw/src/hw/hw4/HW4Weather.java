@@ -19,8 +19,8 @@ public class HW4Weather {
 
         WeatherInput wi = new FrameInput(mgr);
 
-        WeatherOutput wo1 = new FrameOutput(Arrays.asList(dp1,dp4), "Boston Weather");
-        WeatherOutput wo2 = new FrameOutput(Arrays.asList(dp2,dp5), "Detroit Weather");
+        WeatherOutput wo1 = new FrameOutput(Arrays.asList(dp1, dp4), "Boston Weather");
+        WeatherOutput wo2 = new FrameOutput(Arrays.asList(dp2, dp5), "Detroit Weather");
         WeatherOutput wo3 = new ConsoleOutput(Arrays.asList(dp3), "Miami Weather");
 
         wi.run();

@@ -14,5 +14,6 @@ public abstract class AnalystDecorator extends StockAnalyst {
     }
 
     public abstract double confidenceLevel();
+
     public abstract String reasons();
 }

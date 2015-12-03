@@ -6,7 +6,7 @@ public class Number extends ArithmeticExpression {
 
     private int val;
 
-    public Number (int val) {
+    public Number(int val) {
         this.val = val;
     }
 

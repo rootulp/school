@@ -50,18 +50,36 @@ public class CSVMachine {
 
 
     // Getters
-    public State getBeginField() { return this.BeginField; }
-    public State getUnquotedField() { return this.UnquotedField; }
-    public State getQuotedField() { return this.QuotedField; }
-    public State getSeenAQuote() { return this.SeenAQuote; }
-    public State getError() { return this.Error; }
+    public State getBeginField() {
+        return this.BeginField;
+    }
+
+    public State getUnquotedField() {
+        return this.UnquotedField;
+    }
+
+    public State getQuotedField() {
+        return this.QuotedField;
+    }
+
+    public State getSeenAQuote() {
+        return this.SeenAQuote;
+    }
+
+    public State getError() {
+        return this.Error;
+    }
 
     public List<String> getRow() {
-        if (sb.length() != 0) { endOfString(); }
+        if (sb.length() != 0) {
+            endOfString();
+        }
         return row;
     }
 
     // Setters
-    public void setState(State state) { this.state = state; }
+    public void setState(State state) {
+        this.state = state;
+    }
 
 }

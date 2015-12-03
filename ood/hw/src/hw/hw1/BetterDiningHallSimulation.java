@@ -24,10 +24,10 @@ public class BetterDiningHallSimulation {
             elapseOneSecond(t);
         }
 
-        System.out.println("Register 0" );
+        System.out.println("Register 0");
         System.out.println("\tNumber of arrivals = " + register0.getCustomersServed());
         System.out.println("\tAverage wait time = " + register0.getAverageWaitTime());
-        System.out.println("Register 1" );
+        System.out.println("Register 1");
         System.out.println("\tNumber of arrivals = " + register1.getCustomersServed());
         System.out.println("\tAverage wait time = " + register1.getAverageWaitTime());
     }

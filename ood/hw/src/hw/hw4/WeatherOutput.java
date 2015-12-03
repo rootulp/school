@@ -34,6 +34,7 @@ class FrameOutput implements WeatherOutput {
             wd.registerObserver(this);
 
     }
+
     public void display(String displayString) {
         GUIFrame5 frame = new GUIFrame5(displayString);
         frame.pack();
@@ -46,7 +47,7 @@ class FrameOutput implements WeatherOutput {
         public GUIFrame5(String displayString) {
             setTitle(title);
             setDefaultCloseOperation(EXIT_ON_CLOSE);
-            setLocation(200,200);
+            setLocation(200, 200);
             panel = new GUIPanel5(displayString);
             setContentPane(panel);
             setVisible(true);

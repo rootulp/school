@@ -42,6 +42,7 @@ class ConsoleInput implements WeatherInput {
 class FrameInput implements WeatherInput {
 
     private WeatherMgr mgr;
+
     public FrameInput(WeatherMgr mgr) {
         this.mgr = mgr;
     }
@@ -58,7 +59,7 @@ class FrameInput implements WeatherInput {
         public GUIFrame5() {
             setTitle("Frame Input");
             setDefaultCloseOperation(EXIT_ON_CLOSE);
-            setLocation(200,200);
+            setLocation(200, 200);
             panel = new GUIPanel5();
             setContentPane(panel);
             setVisible(true);
@@ -67,13 +68,13 @@ class FrameInput implements WeatherInput {
 
     @SuppressWarnings("serial")
     class GUIPanel5 extends JPanel {
-        private JLabel lbl1     = new JLabel("City (Boston, Detroit, Miami): ");
+        private JLabel lbl1 = new JLabel("City (Boston, Detroit, Miami): ");
         private JTextField txt1 = new JTextField("Boston", 4);
-        private JLabel lbl2     = new JLabel("Temperature: ");
+        private JLabel lbl2 = new JLabel("Temperature: ");
         private JTextField txt2 = new JTextField("75", 4);
-        private JLabel lbl3     = new JLabel("Humidity: ");
+        private JLabel lbl3 = new JLabel("Humidity: ");
         private JTextField txt3 = new JTextField("50", 4);
-        private JLabel lbl4     = new JLabel("Pressure: ");
+        private JLabel lbl4 = new JLabel("Pressure: ");
         private JTextField txt4 = new JTextField("40", 4);
         private JButton btn = new JButton("Submit");
 
@@ -117,9 +118,18 @@ class FrameInput implements WeatherInput {
             String h = pnl.txt3.getText();
             String p = pnl.txt4.getText();
 
-            try { temperature = Float.parseFloat(t); } catch (NumberFormatException e) {}
-            try { humidity = Float.parseFloat(h); } catch (NumberFormatException e) {}
-            try { pressure = Float.parseFloat(p); } catch (NumberFormatException e) {}
+            try {
+                temperature = Float.parseFloat(t);
+            } catch (NumberFormatException e) {
+            }
+            try {
+                humidity = Float.parseFloat(h);
+            } catch (NumberFormatException e) {
+            }
+            try {
+                pressure = Float.parseFloat(p);
+            } catch (NumberFormatException e) {
+            }
 
             mgr.notifyObservers(city, temperature, humidity, pressure);
         }

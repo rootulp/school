@@ -2,12 +2,13 @@ package hw.hw3;
 
 public abstract class ItemDistribution {
     protected int distSize;
+
     public abstract int getServiceTime();
 }
 
 class Uniform extends ItemDistribution {
 
-    public Uniform(int ds){
+    public Uniform(int ds) {
         distSize = ds;
     }
 
@@ -20,7 +21,7 @@ class Uniform extends ItemDistribution {
 
 class Bimodal extends ItemDistribution {
 
-    public Bimodal(int ds){
+    public Bimodal(int ds) {
         distSize = ds;
     }
 

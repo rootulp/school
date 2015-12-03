@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 
 public class StockInfo {
-    private Map<String,String> info = new HashMap<String,String>();
+    private Map<String, String> info = new HashMap<String, String>();
 
     public StockInfo(String filename) {
         try {
@@ -16,8 +16,8 @@ public class StockInfo {
                 info.put(words[0], words[1]);
             }
             sc.close();
+        } catch (IOException ex) {
         }
-        catch(IOException ex) {}
     }
 
     public String get(String key) {
