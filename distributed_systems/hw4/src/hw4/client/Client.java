@@ -1,8 +1,12 @@
 package hw4.client;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -15,8 +19,8 @@ public class Client {
         private int middlewarePort;
         private String filename;
         private String transferType;
-        private Socket MiddlewareSocket;
-        private Socket ServerSocket;
+        private Socket middlewareSocket;
+        private Socket serverSocket;
         
         public ClientThread(String middlewareAddress, int middlewarePort, String filename, String transferType) {
             this.middlewareAddress = middlewareAddress;
@@ -28,9 +32,9 @@ public class Client {
         public void run() {
             try {
             	// Middleware Setup
-            	MiddlewareSocket = new Socket(middlewareAddress, middlewarePort);
-        		BufferedReader middlewareIn = new BufferedReader(new InputStreamReader(MiddlewareSocket.getInputStream()));
-        		PrintWriter middlewareOut = new PrintWriter(MiddlewareSocket.getOutputStream(), true);
+            	middlewareSocket = new Socket(middlewareAddress, middlewarePort);
+        		BufferedReader middlewareIn = new BufferedReader(new InputStreamReader(middlewareSocket.getInputStream()));
+        		PrintWriter middlewareOut = new PrintWriter(middlewareSocket.getOutputStream(), true);
         	    
         		// Write filename to Middleware
         	    middlewareOut.println(filename);
@@ -41,9 +45,7 @@ public class Client {
         		System.out.println("File " + filename + " is located at Server Address: " + serverAddress + " Port: " + serverPort);
         		
         		// Server Setup
-        		ServerSocket = new Socket(serverAddress, serverPort);
-        		BufferedReader serverIn = new BufferedReader(new InputStreamReader(MiddlewareSocket.getInputStream()));
-        		PrintWriter serverOut = new PrintWriter(MiddlewareSocket.getOutputStream(), true);
+        		serverSocket = new Socket(serverAddress, serverPort);
                
             } catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
@@ -53,8 +55,8 @@ public class Client {
 				e.printStackTrace();
 			} finally {
                 try {
-                	MiddlewareSocket.close();
-                	ServerSocket.close();
+                	middlewareSocket.close();
+                	serverSocket.close();
                 } catch (IOException e) {
                 	// TODO Auto-generated catch block
     				e.printStackTrace();
