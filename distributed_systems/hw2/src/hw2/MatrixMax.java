@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class MatrixMax implements Serializable {
 
+  private static final long serialVersionUID = 1L;
   private int[][] matrix;
   public volatile int[] rowMaxes;
 
@@ -97,7 +98,7 @@ public class MatrixMax implements Serializable {
 
     // Print Matrix Max
     System.out.println("Matrix Max:");
-    System.out.println(matrixMax.findMax(matrixMax.rowMaxes));
+    System.out.println(MatrixMax.findMax(matrixMax.rowMaxes));
     System.out.println();
   }
 }
