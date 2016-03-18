@@ -1,5 +1,6 @@
-package hw4.client;
+package hw4;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -48,14 +49,41 @@ public class Client {
 
         // Server Setup
         serverSocket = new Socket(serverAddress, serverPort);
+        BufferedReader serverIn = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
+        PrintWriter serverOut = new PrintWriter(serverSocket.getOutputStream(), true);
+        
+        // Write filename and transfer type to Middleware
+        serverOut.println(filename);
+        serverOut.println(transferType);
+        
+        if (transferType.equals("download")){
+          // Setup Download Streams
+          InputStream is = serverSocket.getInputStream();
+          FileOutputStream fos = new FileOutputStream(filename + "-download");
+          BufferedOutputStream bos = new BufferedOutputStream(fos);
 
-        byte[] mybytearray = new byte[1024];
-        InputStream is = serverSocket.getInputStream();
-        FileOutputStream fos = new FileOutputStream(filename);
-        BufferedOutputStream bos = new BufferedOutputStream(fos);
-        int bytesRead = is.read(mybytearray, 0, mybytearray.length);
-        bos.write(mybytearray, 0, bytesRead);
+          // Perform Download
+          byte[] mybytearray = new byte[1024];
+          int bytesRead = is.read(mybytearray, 0, mybytearray.length);
+          bos.write(mybytearray, 0, bytesRead);
+          bos.close();
+        } else if (transferType.equals("upload")){
+          // Setup File
+          File myFile = new File(filename);
+          byte[] mybytearray = new byte[(int) myFile.length()];
 
+          // Setup Streams to send file
+          BufferedInputStream bis = new BufferedInputStream(new FileInputStream(myFile));
+          OutputStream os = serverSocket.getOutputStream();
+          
+          // Send File
+          bis.read(mybytearray, 0, mybytearray.length);
+          os.write(mybytearray, 0, mybytearray.length);
+          os.flush();
+        } else {
+          System.out.println("Unrecognized Transfer Type");
+        }
+        
       } catch (UnknownHostException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
