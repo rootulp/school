@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -49,6 +50,55 @@ public class Server {
     public ServerThread(Socket socket) {
         this.socket = socket;
     }
+    
+    public void routeFileRequest(String filename, String transferType) {
+      if (transferType.equals("download")) {
+        download(filename);
+      } else if (transferType.equals("upload")) {
+        upload(filename);
+      } else {
+        System.out.println("Unrecognized Transfer Type");
+      }
+    }
+    
+    public void download(String filename) {
+      try {
+        // Setup File
+        File myFile = new File(filename);
+        byte[] mybytearray = new byte[(int) myFile.length()];
+
+        // Setup Streams to send file
+        BufferedInputStream bis;
+      
+        bis = new BufferedInputStream(new FileInputStream(myFile));
+        OutputStream os = socket.getOutputStream();
+        
+        // Send File
+        bis.read(mybytearray, 0, mybytearray.length);
+        os.write(mybytearray, 0, mybytearray.length);
+        os.flush();
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+    
+    public void upload(String filename) {
+      try {
+        BufferedReader brTest = new BufferedReader(new FileReader(filename));
+        FileWriter fw = new FileWriter(filename + "-upload");
+        PrintWriter writer = new PrintWriter(fw);
+        String line;
+        while ((line = brTest.readLine()) != null) {
+          writer.println(line);  
+        } 
+        writer.flush();
+        writer.close();
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
 
     public void run() {
       try {
@@ -56,41 +106,21 @@ public class Server {
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-        String filename = in.readLine();
-        String transferType = in.readLine();
+        String input = in.readLine();
         
-        System.out.println("Received request to " + transferType + " the File " + filename);
-        
-        if (transferType.equals("download")){
-          // Setup File
-          File myFile = new File(filename);
-          byte[] mybytearray = new byte[(int) myFile.length()];
-
-          // Setup Streams to send file
-          BufferedInputStream bis = new BufferedInputStream(new FileInputStream(myFile));
-          OutputStream os = socket.getOutputStream();
-          
-          // Send File
-          bis.read(mybytearray, 0, mybytearray.length);
-          os.write(mybytearray, 0, mybytearray.length);
-          os.flush();
-        } else if (transferType.equals("upload")){
-          BufferedReader brTest = new BufferedReader(new FileReader(filename));
-          FileWriter fw = new FileWriter(filename + "-upload");
-          PrintWriter writer = new PrintWriter(fw);
-          String line;
-          while ((line = brTest.readLine()) != null) {
-            writer.println(line);  
-          } 
-          writer.flush();
-          writer.close();
+        if (input.equals("Is server alive?")) {
+          out.println("Server is alive!");
+          System.out.println("Server is alive!");
         } else {
-          System.out.println("Unrecognized Transfer Type");
+          // Read in transferType
+          String transferType = in.readLine();
+          // Print file (input) and transferType
+          System.out.println("Received request to " + transferType + " the File " + input);
+          routeFileRequest(input, transferType);
         }
-      } catch (UnknownHostException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IOException e) {
+        
+        
+      } catch (Exception e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
       } finally {
