@@ -20,10 +20,6 @@ public class RemoteManager {
     this.remoteManagerNumber = remoteManagerNumber;
     this.portNumber = Integer.parseInt(ConfigLoader.props.getProperty("REMOTE_MANAGER_" + remoteManagerNumber + "_PORT_NUMBER"));
     
-    // Sync Servers every 5 seconds
-    Timer timer = new Timer();
-    timer.schedule(new SyncServerThread(remoteManagerNumber), 0, 5000);
-    
     // Accept requests from Middleware
     ServerSocket remoteManager;
     try {
@@ -45,12 +41,9 @@ public class RemoteManager {
               "Port: " + remoteManager.getLocalPort());
     } catch (UnknownHostException e) {
       // HUGE BUG - masking error output
-      //e.printStackTrace();
       return ("Invalid Remote Manager Info");
     }
   }
-  
- 
   
   private static class RemoteManagerThread extends Thread {
     private Socket socket;
@@ -67,8 +60,8 @@ public class RemoteManager {
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         String filename = in.readLine();
         int serverNumber = randomAliveServerNumber(remoteManagerNumber);
-        String serverAddress = ConfigLoader.props.getProperty("SERVER_" + serverNumber + "_ADDRESS");
-        int serverPortNumber = Integer.parseInt(ConfigLoader.props.getProperty("SERVER_" + serverNumber + "_PORT_NUMBER"));
+        String serverAddress = Server.serverAddress(serverNumber);
+        int serverPortNumber = Server.serverPortNumber(serverNumber);
         out.println(serverAddress);
         out.println(serverPortNumber);
         System.out.println("Routed request for the File " + filename + " to server number: " + serverNumber + " at Address: " + serverAddress + " Port: " + serverPortNumber);
@@ -85,22 +78,7 @@ public class RemoteManager {
       }
     }
   }
-  
-  private static class SyncServerThread extends TimerTask {
-    private int remoteManagerNumber;
-    public SyncServerThread(int remoteManagerNumber) {
-      this.remoteManagerNumber = remoteManagerNumber;
-    }
-    
-    public void run() {
-      int[] serversToSync = serversToSync(remoteManagerNumber);
-      int server1 = serversToSync[0];
-      int server2 = serversToSync[1];
-      
-      System.out.println("server1 " + server1 + " server2 " + server2);
-    }
-  }
-  
+
   public static boolean isServerAlive(int serverNumber) {
     String serverAddress = ConfigLoader.props.getProperty("SERVER_" + serverNumber + "_ADDRESS");
     int serverPortNumber = Integer.parseInt(ConfigLoader.props.getProperty("SERVER_" + serverNumber + "_PORT_NUMBER"));
@@ -136,16 +114,6 @@ public class RemoteManager {
     int max = min + 2;
     Random random = new Random();
     return random.nextInt(max - min + 1) + min;
-  }
-  
-  private static int[] serversToSync(int remoteManagerNumber) {
-    int server1 = randomAliveServerNumber(remoteManagerNumber);
-    int server2 = randomAliveServerNumber(remoteManagerNumber);
-    while (server1 == server2) {
-      server2 = randomAliveServerNumber(remoteManagerNumber);
-    }
-    int[] serversToSync = new int[] {server1, server2};
-    return serversToSync;
   }
   
   public static void main(String[] args) throws Exception {

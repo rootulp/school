@@ -20,6 +20,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Server {
   
@@ -28,9 +30,13 @@ public class Server {
 
   public Server(int serverNumber) throws Exception {
     this.serverNumber = serverNumber;
-    this.portNumber = Integer.parseInt(ConfigLoader.props.getProperty("SERVER_" + serverNumber + "_PORT_NUMBER"));
+    this.portNumber = serverPortNumber(serverNumber);
     ServerSocket serverSocket = new ServerSocket(portNumber);
     System.out.println(serverInfo(serverNumber, serverSocket));
+    
+    // Sync Servers every 5 seconds
+    Timer timer = new Timer();
+    timer.schedule(new SyncServerThread(serverNumber), 0, 5000);
     
     try {
       while (true) {
@@ -54,10 +60,8 @@ public class Server {
   }
   
   private static class ServerThread extends Thread {
-
     private Socket socket;
     private int serverNumber;
-
     public ServerThread(Socket socket, int serverNumber) {
         this.socket = socket;
         this.serverNumber = serverNumber;
@@ -67,62 +71,12 @@ public class Server {
       // Print file (input) and transferType
       System.out.println("Received request to " + transferType + " the File " + filename);
       if (transferType.equals("download")) {
-        download(filename);
+        download(socket, serverNumber, filename);
       } else if (transferType.equals("upload")) {
-        upload(filename);
+        upload(socket, serverNumber, filename);
       } else {
         System.out.println("Unrecognized Transfer Type");
       }
-    }
-    
-    public void download(String filename) {
-      try {
-        // Setup File
-        File myFile = new File("server" + serverNumber + "-" + filename);
-        byte[] mybytearray = new byte[(int) myFile.length()];
-        // Setup Streams to send file
-        BufferedInputStream bis;
-        bis = new BufferedInputStream(new FileInputStream(myFile));
-        OutputStream os = socket.getOutputStream();
-        // Send File
-        bis.read(mybytearray, 0, mybytearray.length);
-        os.write(mybytearray, 0, mybytearray.length);
-        os.flush();
-      } catch (Exception e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-    }
-    
-    public void upload(String filename) {
-      try {
-        BufferedReader brTest = new BufferedReader(new FileReader(filename));
-        FileWriter fw = new FileWriter("server" + serverNumber + "-" + filename);
-        PrintWriter writer = new PrintWriter(fw);
-        String line;
-        while ((line = brTest.readLine()) != null) {
-          writer.println(line);  
-        } 
-        writer.flush();
-        writer.close();
-      } catch (Exception e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-    }
-    
-    // Should be serializing an object but instead 
-    // passing this as one long string delimited by spaces
-    public String listFiles() throws IOException {
-      StringBuilder files = new StringBuilder();
-      File directory = new File("./");
-      File[] fileList = directory.listFiles();
-      for (File file : fileList){
-        if (file.isFile() && file.getName().startsWith("server" + serverNumber)) {
-          files.append(file.getName() + " ");
-        }
-      }
-      return files.toString();
     }
 
     public void run() {
@@ -130,13 +84,11 @@ public class Server {
         // Stream Setup
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-
         String input = in.readLine();
-        
         if (input.equals("Is server alive?")) {
           out.println("Server is alive!");
         } else if (input.equals("List files")) {
-          out.println(listFiles());
+          out.println(listFiles(serverNumber));
         } else {
           String transferType = in.readLine();
           routeFileRequest(input, transferType);
@@ -154,6 +106,110 @@ public class Server {
       }
     }
   }
+  
+  private static class SyncServerThread extends TimerTask {
+    private int serverNumber;
+    public SyncServerThread(int serverNumber) {
+      this.serverNumber = serverNumber;
+    }
+    
+    public void run() {
+      int otherServer = randomAliveOtherServerNumber(serverNumber);
+      System.out.println("Other Server Number: " + otherServer);
+      String otherServerAddress = serverAddress(otherServer);
+      int otherServerPort = serverPortNumber(otherServer);
+      Socket serverSocket;
+      try {
+        serverSocket = new Socket(otherServerAddress, otherServerPort);
+        BufferedReader serverIn = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
+        PrintWriter serverOut = new PrintWriter(serverSocket.getOutputStream(), true);
+        serverOut.println("List files");
+        //System.out.println("Response from server: " + serverIn.readLine());
+        String files = serverIn.readLine();
+        if (!files.isEmpty()) {
+          String[] filesList = files.split(" ");
+          System.out.println("Files " + files);
+          for (String filename: filesList) {
+            System.out.println("Trying to download: " + filename);
+            serverOut.println(filename);
+            serverOut.println("download");
+            upload(serverSocket, serverNumber, filename);
+          }
+        }
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+  }
+  
+  public static void download(Socket socket, int serverNumber, String filename) {
+    try {
+      // Setup File
+      File myFile = new File("server" + serverNumber + "-" + filename);
+      byte[] mybytearray = new byte[(int) myFile.length()];
+      // Setup Streams to send file
+      BufferedInputStream bis;
+      bis = new BufferedInputStream(new FileInputStream(myFile));
+      OutputStream os = socket.getOutputStream();
+      // Send File
+      bis.read(mybytearray, 0, mybytearray.length);
+      os.write(mybytearray, 0, mybytearray.length);
+      os.flush();
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+  
+  public static void upload(Socket socket, int serverNumber, String filename) {
+    try {
+      BufferedReader brTest = new BufferedReader(new FileReader(filename));
+      FileWriter fw = new FileWriter("server" + serverNumber + "-" + filename);
+      PrintWriter writer = new PrintWriter(fw);
+      String line;
+      while ((line = brTest.readLine()) != null) {
+        writer.println(line);  
+      } 
+      writer.flush();
+      writer.close();
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+  
+  // Should be serializing an object but instead 
+  // passing this as one long string delimited by spaces
+  public static String listFiles(int serverNumber) throws IOException {
+    StringBuilder files = new StringBuilder();
+    File directory = new File("./");
+    File[] fileList = directory.listFiles();
+    for (File file : fileList) {
+      String fileName = file.getName();
+      if (file.isFile() && fileName.startsWith("server" + serverNumber)) {
+        files.append(fileName.replace("server" + serverNumber + "-", "") + " ");
+      }
+    }
+    return files.toString();
+  }
+  
+  public static String serverAddress(int serverNumber) {
+    return ConfigLoader.props.getProperty("SERVER_" + serverNumber + "_ADDRESS");
+  }
+  
+  public static int serverPortNumber(int serverNumber) {
+    return Integer.parseInt(ConfigLoader.props.getProperty("SERVER_" + serverNumber + "_PORT_NUMBER"));
+  }
+  
+  public static int randomAliveOtherServerNumber(int currentServerNumber) {
+    int otherServerNumber = RemoteManager.randomAliveServerNumber(currentServerNumber/3);
+    while (currentServerNumber == otherServerNumber) {
+      otherServerNumber = RemoteManager.randomAliveServerNumber(currentServerNumber/3);
+    }
+    return otherServerNumber;
+  }
+
   
   public static void main(String[] args) throws Exception {
     BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
