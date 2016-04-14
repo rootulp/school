@@ -9,64 +9,52 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RemoteManager {
   private int portNumber;
   private int remoteManagerNumber;
-   
-  public RemoteManager(int remoteManagerNumber) throws Exception {
+  
+  public RemoteManager(int remoteManagerNumber) {
     this.remoteManagerNumber = remoteManagerNumber;
     this.portNumber = Integer.parseInt(ConfigLoader.props.getProperty("REMOTE_MANAGER_" + remoteManagerNumber + "_PORT_NUMBER"));
     
-    ServerSocket remoteManager = new ServerSocket(portNumber);
-
-    // Print Address and Port
-    System.out.println("Remote Manager #" + remoteManagerNumber + " " +
-                       "Address: " + InetAddress.getLocalHost().getHostAddress() + " " +
-                       "Port: " + remoteManager.getLocalPort());
+    // Sync Servers every 5 seconds
+    Timer timer = new Timer();
+    timer.schedule(new SyncServerThread(remoteManagerNumber), 0, 5000);
+    
+    // Accept requests from Middleware
+    ServerSocket remoteManager;
     try {
+      remoteManager = new ServerSocket(portNumber);
+      // Print Address and Port
+      System.out.println(remoteManagerInfo(remoteManagerNumber, remoteManager));
       while (true) {
         new RemoteManagerThread(remoteManager.accept(), remoteManagerNumber).start();
       }
-    } finally {
-      remoteManager.close();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
   
-  public static boolean isServerAlive(int serverNumber) {
-    String serverAddress = ConfigLoader.props.getProperty("SERVER_" + serverNumber + "_ADDRESS");
-    int serverPortNumber = Integer.parseInt(ConfigLoader.props.getProperty("SERVER_" + serverNumber + "_PORT_NUMBER"));
-    Socket serverSocket;
+  private String remoteManagerInfo(int remoteManagerNumber, ServerSocket remoteManager) {
     try {
-      serverSocket = new Socket(serverAddress, serverPortNumber);
-      BufferedReader serverIn = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
-      PrintWriter serverOut = new PrintWriter(serverSocket.getOutputStream(), true);
-      serverOut.println("Is server alive?");
-      //System.out.println("Is server alive??");
-      String response = serverIn.readLine();
-      return response.equals("Server is alive!");
-    } catch (Exception e){
-      // HUGE BUG - MASKING error output
+      return ("Remote Manager #" + remoteManagerNumber + " " +
+              "Address: " + InetAddress.getLocalHost().getHostAddress() + " " +
+              "Port: " + remoteManager.getLocalPort());
+    } catch (UnknownHostException e) {
+      // HUGE BUG - masking error output
       //e.printStackTrace();
-      return false;
+      return ("Invalid Remote Manager Info");
     }
   }
   
-  // If this is Remote Manager 0: returns 0, 1, or 2
-  // If this is Remote Manager 1: returns 3, 4, or 5
-  // If this is Remote Manager 2: returns 6, 7, or 8
-  public static int randomServerNumber(int remoteManagerNumber) {
-    int min = 3 * remoteManagerNumber;
-    int max = min + 2;
-    Random random = new Random();
-    return random.nextInt(max - min + 1) + min;
-  }
+ 
   
   private static class RemoteManagerThread extends Thread {
-
     private Socket socket;
     private int remoteManagerNumber;
-
     public RemoteManagerThread(Socket socket, int remoteManagerNumber) {
       this.socket = socket;
       this.remoteManagerNumber = remoteManagerNumber;
@@ -77,17 +65,8 @@ public class RemoteManager {
         // Stream Setup
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-
         String filename = in.readLine();
-        
-        //int serverNumber = randomServerNumber(remoteManagerNumber);
-        // HARD CODE SERVER 0 for testing
-        int serverNumber = 0;
-        while (!isServerAlive(serverNumber)) {
-          serverNumber = randomServerNumber(remoteManagerNumber);
-        }
-        
-        // Route request to a server that is alive
+        int serverNumber = randomAliveServerNumber(remoteManagerNumber);
         String serverAddress = ConfigLoader.props.getProperty("SERVER_" + serverNumber + "_ADDRESS");
         int serverPortNumber = Integer.parseInt(ConfigLoader.props.getProperty("SERVER_" + serverNumber + "_PORT_NUMBER"));
         out.println(serverAddress);
@@ -105,6 +84,68 @@ public class RemoteManager {
         }
       }
     }
+  }
+  
+  private static class SyncServerThread extends TimerTask {
+    private int remoteManagerNumber;
+    public SyncServerThread(int remoteManagerNumber) {
+      this.remoteManagerNumber = remoteManagerNumber;
+    }
+    
+    public void run() {
+      int[] serversToSync = serversToSync(remoteManagerNumber);
+      int server1 = serversToSync[0];
+      int server2 = serversToSync[1];
+      
+      System.out.println("server1 " + server1 + " server2 " + server2);
+    }
+  }
+  
+  public static boolean isServerAlive(int serverNumber) {
+    String serverAddress = ConfigLoader.props.getProperty("SERVER_" + serverNumber + "_ADDRESS");
+    int serverPortNumber = Integer.parseInt(ConfigLoader.props.getProperty("SERVER_" + serverNumber + "_PORT_NUMBER"));
+    Socket serverSocket;
+    try {
+      serverSocket = new Socket(serverAddress, serverPortNumber);
+      BufferedReader serverIn = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
+      PrintWriter serverOut = new PrintWriter(serverSocket.getOutputStream(), true);
+      serverOut.println("Is server alive?");
+      String response = serverIn.readLine();
+      return response.equals("Server is alive!");
+    } catch (Exception e){
+      // HUGE BUG - MASKING error output
+      //e.printStackTrace();
+      return false;
+    }
+  }
+  
+  public static int randomAliveServerNumber(int remoteManagerNumber) {
+    int serverNumber = randomServerNumber(remoteManagerNumber);
+    while (!isServerAlive(serverNumber)) {
+      serverNumber = randomServerNumber(remoteManagerNumber);
+    }
+    return serverNumber;
+  }
+  
+  // Returns a random server number depending on remoteManagerNumber
+  // If this is Remote Manager 0: returns 0, 1, or 2
+  // If this is Remote Manager 1: returns 3, 4, or 5
+  // If this is Remote Manager 2: returns 6, 7, or 8
+  public static int randomServerNumber(int remoteManagerNumber) {
+    int min = 3 * remoteManagerNumber;
+    int max = min + 2;
+    Random random = new Random();
+    return random.nextInt(max - min + 1) + min;
+  }
+  
+  private static int[] serversToSync(int remoteManagerNumber) {
+    int server1 = randomAliveServerNumber(remoteManagerNumber);
+    int server2 = randomAliveServerNumber(remoteManagerNumber);
+    while (server1 == server2) {
+      server2 = randomAliveServerNumber(remoteManagerNumber);
+    }
+    int[] serversToSync = new int[] {server1, server2};
+    return serversToSync;
   }
   
   public static void main(String[] args) throws Exception {

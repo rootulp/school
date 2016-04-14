@@ -12,23 +12,21 @@ import java.net.InetAddress;
 public class Middleware {
   private int portNumber;
   
-  public Middleware() throws Exception {
+  public Middleware() {
     this.portNumber = Integer.parseInt(ConfigLoader.props.getProperty("MIDDLEWARE_PORT_NUMBER"));
-
-    // Port and Socket Setup
-    ServerSocket middlewareSocket = new ServerSocket(portNumber);
-
-    // Print Address and Port
-    System.out.println("Middleware" +
-                       "Address: " + InetAddress.getLocalHost().getHostAddress() + " " +
-                       "Port: " + middlewareSocket.getLocalPort());
-    
+    ServerSocket middlewareSocket;
     try {
+      // Port and Socket Setup
+      middlewareSocket = new ServerSocket(portNumber);
+      // Print Address and Port
+      System.out.println("Middleware" +
+                         "Address: " + InetAddress.getLocalHost().getHostAddress() + " " +
+                         "Port: " + middlewareSocket.getLocalPort());
       while (true) {
         new MiddlewareThread(middlewareSocket.accept()).start();
       }
-    } finally {
-      middlewareSocket.close();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
@@ -49,18 +47,15 @@ public class Middleware {
         String filename = in.readLine();
         
         //int remoteManagerNumber = hashFilename(filename);
-        
         // HARD CODE Remote Manager 0 for testing
-        
         int remoteManagerNumber = 0;
+        
         String remoteManagerAddress = ConfigLoader.props.getProperty("REMOTE_MANAGER_" + remoteManagerNumber + "_ADDRESS");
         int remoteManagerPortNumber = Integer.parseInt(ConfigLoader.props.getProperty("REMOTE_MANAGER_" + remoteManagerNumber + "_PORT_NUMBER"));
         out.println(remoteManagerAddress);
         out.println(remoteManagerPortNumber);
         System.out.println("Routed request for the File " + filename + " to Remote Manager number: " + remoteManagerNumber + " at Address: " + remoteManagerAddress + " Port: " + remoteManagerPortNumber);
-      } catch (UnknownHostException e) {
-        e.printStackTrace();
-      } catch (IOException e) {
+      } catch (Exception e) {
         e.printStackTrace();
       } finally {
         try {
