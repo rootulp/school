@@ -9,8 +9,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class RemoteManager {
   private int portNumber;
@@ -18,7 +16,7 @@ public class RemoteManager {
   
   public RemoteManager(int remoteManagerNumber) {
     this.remoteManagerNumber = remoteManagerNumber;
-    this.portNumber = Integer.parseInt(ConfigLoader.props.getProperty("REMOTE_MANAGER_" + remoteManagerNumber + "_PORT_NUMBER"));
+    this.portNumber = remoteManagerPortNumber(remoteManagerNumber);
     
     // Accept requests from Middleware
     ServerSocket remoteManager;
@@ -114,6 +112,14 @@ public class RemoteManager {
     int max = min + 2;
     Random random = new Random();
     return random.nextInt(max - min + 1) + min;
+  }
+  
+  public static String remoteManagerAddress(int remoteManagerNumber) {
+    return ConfigLoader.props.getProperty("REMOTE_MANAGER_" + remoteManagerNumber + "_ADDRESS");
+  }
+  
+  public static int remoteManagerPortNumber(int remoteManagerNumber) {
+    return Integer.parseInt(ConfigLoader.props.getProperty("REMOTE_MANAGER_" + remoteManagerNumber + "_PORT_NUMBER"));
   }
   
   public static void main(String[] args) throws Exception {

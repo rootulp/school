@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.net.InetAddress;
 
 public class Middleware {
@@ -16,9 +15,7 @@ public class Middleware {
     this.portNumber = Integer.parseInt(ConfigLoader.props.getProperty("MIDDLEWARE_PORT_NUMBER"));
     ServerSocket middlewareSocket;
     try {
-      // Port and Socket Setup
       middlewareSocket = new ServerSocket(portNumber);
-      // Print Address and Port
       System.out.println("Middleware" +
                          "Address: " + InetAddress.getLocalHost().getHostAddress() + " " +
                          "Port: " + middlewareSocket.getLocalPort());
@@ -43,15 +40,13 @@ public class Middleware {
         // Stream Setup
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-
         String filename = in.readLine();
-        
-        //int remoteManagerNumber = hashFilename(filename);
         // HARD CODE Remote Manager 0 for testing
+        //int remoteManagerNumber = hashFilename(filename);
         int remoteManagerNumber = 0;
         
-        String remoteManagerAddress = ConfigLoader.props.getProperty("REMOTE_MANAGER_" + remoteManagerNumber + "_ADDRESS");
-        int remoteManagerPortNumber = Integer.parseInt(ConfigLoader.props.getProperty("REMOTE_MANAGER_" + remoteManagerNumber + "_PORT_NUMBER"));
+        String remoteManagerAddress = RemoteManager.remoteManagerAddress(remoteManagerNumber);
+        int remoteManagerPortNumber = RemoteManager.remoteManagerPortNumber(remoteManagerNumber);
         out.println(remoteManagerAddress);
         out.println(remoteManagerPortNumber);
         System.out.println("Routed request for the File " + filename + " to Remote Manager number: " + remoteManagerNumber + " at Address: " + remoteManagerAddress + " Port: " + remoteManagerPortNumber);
