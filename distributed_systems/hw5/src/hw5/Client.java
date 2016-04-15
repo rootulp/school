@@ -22,16 +22,16 @@ public class Client {
 
     private String middlewareAddress;
     private int middlewarePort;
-    private String filename;
+    private String fileName;
     private String transferType;
     private Socket middlewareSocket;
     private Socket remoteManagerSocket;
     private Socket serverSocket;
 
-    public ClientThread(String filename, String transferType) {
+    public ClientThread(String fileName, String transferType) {
       this.middlewareAddress = ConfigLoader.props.getProperty("MIDDLEWARE_ADDRESS");
       this.middlewarePort = Integer.parseInt(ConfigLoader.props.getProperty("MIDDLEWARE_PORT_NUMBER"));
-      this.filename = filename;
+      this.fileName = fileName;
       this.transferType = transferType;
     }
 
@@ -43,7 +43,7 @@ public class Client {
         PrintWriter middlewareOut = new PrintWriter(middlewareSocket.getOutputStream(), true);
 
         // Write filename to Middleware
-        middlewareOut.println(filename);
+        middlewareOut.println(fileName);
 
         // Get Middleware response
         String remoteManagerAddress = middlewareIn.readLine();
@@ -56,7 +56,7 @@ public class Client {
         PrintWriter remoteManagerOut = new PrintWriter(remoteManagerSocket.getOutputStream(), true);
         
         // Write filename to Remote Manager
-        remoteManagerOut.println(filename);
+        remoteManagerOut.println(fileName);
         
         // Get Remote Manager response
         String serverAddress = remoteManagerIn.readLine();
@@ -69,32 +69,13 @@ public class Client {
         PrintWriter serverOut = new PrintWriter(serverSocket.getOutputStream(), true);
         
         // Write filename and transfer type to Server
-        serverOut.println(filename);
+        serverOut.println(fileName);
         serverOut.println(transferType);
         
-        if (transferType.equals("download")){
-          BufferedReader brTest = new BufferedReader(new FileReader(filename));
-          FileWriter fw = new FileWriter(filename + "-download");
-          PrintWriter writer = new PrintWriter(fw);
-          String line;
-          while ((line = brTest.readLine()) != null) {
-            writer.println(line);  
-          } 
-          writer.flush();
-          writer.close();
-        } else if (transferType.equals("upload")){          
-          // Setup File
-          File myFile = new File(filename);
-          byte[] mybytearray = new byte[(int) myFile.length()];
-
-          // Setup Streams to send file
-          BufferedInputStream bis = new BufferedInputStream(new FileInputStream(myFile));
-          OutputStream os = serverSocket.getOutputStream();
-          
-          // Send File
-          bis.read(mybytearray, 0, mybytearray.length);
-          os.write(mybytearray, 0, mybytearray.length);
-          os.flush();
+        if (transferType.equals("download")) {
+          download(serverSocket, fileName);
+        } else if (transferType.equals("upload")) {
+          upload(serverSocket, fileName);
         } else {
           System.out.println("Unrecognized Transfer Type");
         }
@@ -117,17 +98,51 @@ public class Client {
       }
     }
   }
+  
+  public static void download(Socket serverSocket, String fileName) {
+    try {
+      // Setup Download Streams
+      InputStream is = serverSocket.getInputStream();
+      BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(fileName));
+
+      // Perform Download
+      byte[] mybytearray = new byte[1024];
+      int bytesRead = is.read(mybytearray, 0, mybytearray.length);
+      bos.write(mybytearray, 0, bytesRead);
+      bos.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  
+  public static void upload(Socket serverSocket, String fileName) {
+    try {
+      // Setup File
+      File myFile = new File(fileName);
+      byte[] mybytearray = new byte[(int) myFile.length()];
+
+      // Setup Streams to send file
+      BufferedInputStream bis = new BufferedInputStream(new FileInputStream(myFile));
+      OutputStream os = serverSocket.getOutputStream();
+      
+      // Send File
+      bis.read(mybytearray, 0, mybytearray.length);
+      os.write(mybytearray, 0, mybytearray.length);
+      os.flush();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
   public static void main(String argv[]) throws IOException {
-
     BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
 
     while (true) {
       System.out.println("Please enter the filename: ");
-      String filename = keyboard.readLine();
+      String fileName = keyboard.readLine();
       System.out.println("Please enter 'download' or 'upload': ");
       String transferType = keyboard.readLine();
-      new ClientThread(filename, transferType).start();
+      new ClientThread(fileName, transferType).start();
     }
   }
 }
