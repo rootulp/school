@@ -117,9 +117,9 @@ public class Server {
         if (!files.isEmpty()) {
           String[] filesList = files.split(" ");
           for (String filename: filesList) {
-            serverOut.println(filename);
-            serverOut.println("download");
-            upload(serverSocket, serverNumber, filename);
+            //serverOut.println(filename);
+            //serverOut.println("download");
+            //upload(serverSocket, serverNumber, filename);
           }
         }
       } catch (Exception e) {
