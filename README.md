@@ -2,7 +2,9 @@ school
 ======
 [![License](https://img.shields.io/:license-mit-blue.svg)](https://rootulp.mit-license.org)
 
-Samples of my code from school projects.
+> Samples of my code from school projects
+
+## About
 
 Course           | Languages
 ---              | ---
@@ -13,3 +15,7 @@ Mobile Apps      | Java (Android)
 Computer Systems | C
 OOD              | Java
 Algos            | Ruby
+
+## License
+
+[MIT](https://rootulp.mit-license.org/) © [Rootul Patel](https://rootulp.com)
