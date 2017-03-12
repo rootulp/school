@@ -2,7 +2,7 @@ school
 ======
 [![License](https://img.shields.io/:license-mit-blue.svg)](https://rootulp.mit-license.org)
 
-> Samples of my code from school projects
+> School assignments
 
 ## About
 
